@@ -19,7 +19,7 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY datapane/poetry.* /root
+COPY . /root
 RUN  poetry install
 
 # Copy the makefile targets to expose on the container. This makes it easier to register
