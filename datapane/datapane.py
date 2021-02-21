@@ -4,6 +4,7 @@ import pandas
 import pandas as pd
 import altair as alt
 import datapane as dp
+from flytekit.types import schema  # noqa: F401
 #from replit import db
 
 # Endpoint: 127.0.0.1:30081
@@ -34,18 +35,14 @@ def transform_data(url: str) -> pandas.DataFrame:
 
 @workflow
 def datapane_workflow(url: str):
-    df = transform_data(url)
-    publish_report(df)
+    df = transform_data(url=url)
+    publish_report(df=df)
     print(f"Report is published for {url}")
 
 
 default_lp = LaunchPlan.get_default_launch_plan(
     current_context(),
-    datapane_workflow,
-    fixed_inputs={},
-    default_inputs={
-        "url": "https://covid.ourworldindata.org/data/owid-covid-data.csv"
-    })
+    datapane_workflow)
 
 if __name__ == "__main__":
     print(default_lp(url="https://covid.ourworldindata.org/data/owid-covid-data.csv"))
